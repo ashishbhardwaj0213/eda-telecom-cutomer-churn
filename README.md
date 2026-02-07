@@ -168,7 +168,7 @@ telecom-customer-churn
 ├── transformed_Churn_file.csv
 ├── customer_churn.pbix
 ├── images/
-│   └── telecom_churn_dashboard.png
+│   └──Telecom customer churn dashboard.jpg
 └── README.md
 
 
