@@ -6,177 +6,113 @@ The analysis examines customer usage patterns, billing information, service-rela
 
 The project also includes a **Power BI dashboard** for visualizing churn insights.
 
----
+The dataset contains **3,333 customer records** with **11 original features**, including customer usage, service details, and churn status.
 
-## 📂 Dataset Description
-The dataset contains **3,333 customer records** with the following features:
-
-- `Churn`
-- `AccountWeeks`
-- `ContractRenewal`
-- `DataPlan`
-- `DataUsage`
-- `CustServCalls`
-- `DayMins`
-- `DayCalls`
-- `MonthlyCharge`
-- `OverageFee`
-- `RoamMins`
+### Key Columns
+- Churn  
+- AccountWeeks  
+- ContractRenewal  
+- DataPlan  
+- DataUsage  
+- CustServCalls  
+- DayMins  
+- DayCalls  
+- MonthlyCharge  
+- OverageFee  
+- RoamMins  
 
 ---
 
-## 🛠 Tools & Technologies
+## Tools & Libraries Used
 - Python  
-- pandas  
-- numpy  
-- matplotlib  
-- seaborn  
+- Pandas  
+- NumPy  
+- Matplotlib  
+- Seaborn  
 - Power BI  
 
 ---
 
-## 📥 Data Loading
-The dataset is loaded using pandas and inspected for initial understanding.
+## Data Loading & Inspection
+- Loaded the dataset using `pandas.read_csv`
+- Reviewed the first few records using `head()`
+- Checked dataset structure using `info()`
+- Verified data types and memory usage
 
-```python
-df = pd.read_csv("telecom_churn.csv")
-🔍 Data Understanding & Quality Checks
-The following checks were performed:
+---
 
-Dataset structure and data types using df.info()
+## Data Quality Checks
+- Generated descriptive statistics using `describe()`
+- Checked for missing values (none found)
+- Verified duplicate records (none found)
 
-Summary statistics using df.describe()
+---
 
-Missing value check
+## Feature Engineering
+- Converted column names to snake_case
+- Created `churn_group` to label churned and non-churned customers
+- Created derived customer segments:
+  - `long_term_customer` (account weeks ≥ 120)
+  - `high_value_customer` (monthly charge ≥ 60)
+  - `high_complaints` (customer service calls ≥ 3)
 
-Duplicate record check
+---
 
-Observations:
-No missing values present
+## Exploratory Data Analysis
+- Analyzed churn distribution using bar plots
+- Examined contract renewal behavior using cross-tabulation
+- Compared account weeks, monthly charges, and service calls using boxplots
+- Calculated average metrics by churn group:
+  - Monthly charge
+  - Day calls
+  - Roaming minutes
+  - Overage fees
+- Generated a correlation heatmap for numerical features
 
-No duplicate records found
+---
 
-Dataset includes numerical and categorical features
+## Key Insights
+- **Churn Rate:**  
+  The overall churn rate is **14.49%**, indicating that the majority of customers remain with the telecom service.
 
-Churn is a binary variable (0 = No, 1 = Yes)
+- **Contract Renewal Impact:**  
+  Customers who churn are significantly less likely to have contract renewals compared to non-churned customers.
 
-🧹 Data Cleaning & Transformation
-Column Name Standardization
-Column names were converted to snake_case for consistency.
+- **Tenure Behavior:**  
+  Churned customers generally have **lower account weeks**, suggesting that customers with shorter tenure are more likely to churn.
 
-df.columns = df.columns.str.replace(
-    r'(?<!^)(?=[A-Z])', '_', regex=True
-).str.lower()
-Churn Group Creation
-A categorical churn label was created:
+- **Data Plan Usage:**  
+  A higher proportion of churned customers do **not** have a data plan compared to retained customers.
 
-df["churn_group"] = df["churn"].map({1: "Yes", 0: "No"})
-📊 Exploratory Data Analysis
-Churn Distribution
-Bar chart used to visualize churned vs non-churned customers
+- **Monthly Charges:**  
+  Churned customers have a **higher average monthly charge (59.19)** compared to non-churned customers (**55.82**).
 
-Majority of customers have not churned
+- **Customer Service Calls:**  
+  Customers who churn tend to make **more customer service calls**, indicating dissatisfaction or unresolved issues.
 
-Contract Renewal Analysis
-Crosstab analysis shows higher churn among customers without contract renewal
+- **Usage Patterns:**  
+  Average day calls are similar across churn groups, while churned customers show slightly higher roaming minutes and overage fees.
 
-Account Duration
-Boxplot analysis shows churned customers tend to have lower account duration
+---
 
-Data Plan Analysis
-Customers without a data plan have a higher churn percentage
+## Churn Metrics
+- Total customers: **3,333**
+- Churned customers: **483**
+- Overall churn rate: **14.49%**
+- Average monthly charge of churned customers: **59.19**
+- Overall average monthly charge: **56.30**
 
-Monthly Charge Analysis
-Average monthly charge:
+## Power BI Dashboard
+An interactive Power BI dashboard was created to visualize:
+- Overall churn rate
+- Customer segmentation
+- Usage patterns by churn group
+- High-value and high-complaint customer behavior
 
-Non-churned customers: ~55.8
+### Dashboard Preview
+![Telecom Customer Churn Dashboard](Telecom%20customer%20churn%20dashboard.jpg)
 
-Churned customers: ~59.19
+---
 
-Boxplots used to compare charge distribution
-
-Customer Service Calls
-Churned customers make more customer service calls on average
-
-Call Usage
-Average day calls are similar across churn groups
-
-Call count alone does not strongly indicate churn
-
-Feature Correlation
-Correlation heatmap created for numerical features
-
-Helps understand relationships between usage, charges, and churn
-
-Roaming Minutes & Overage Fees
-Churned customers show higher:
-
-Roaming minutes
-
-Overage fees
-
-📉 Churn Rate Calculation
-(churned_customers / total_customers) * 100
-Churn Rate: 14.49%
-
-Total Churned Customers: 483
-
-🧠 Feature Engineering
-Additional features were created:
-
-Long-term customer
-
-account_weeks >= 120
-
-High-value customer
-
-monthly_charge >= 60
-
-High complaints
-
-cust_serv_calls >= 3
-
-These features help analyze churn patterns more effectively.
-
-💾 Exported Dataset
-The transformed dataset was saved for further analysis:
-
-df.to_csv("transformed_Churn_file.csv", index=False)
-📊 Power BI Dashboard
-A Power BI dashboard was created to visualize key churn metrics, including:
-
-Total customers
-
-Churn rate
-
-Churned customers
-
-Monthly charge comparison
-
-Data usage by churn group
-
-High-value customer churn
-
-Complaints vs churn
-
-Account duration distribution
-
-📁 Project Structure
-telecom-customer-churn
-│
-├── telecom_customer_churn.ipynb
-├── transformed_Churn_file.csv
-├── customer_churn.pbix
-├── images/
-│   └──Telecom customer churn dashboard.jpg
-└── README.md
-
-
-📌 Key Insights
-Customers without contract renewal are more likely to churn
-
-Higher monthly charges are associated with higher churn
-
-Frequent customer service calls indicate churn risk
-
-Long-term customers are less likely to churn
+## Conclusion
+This project demonstrates a structured exploratory analysis of telecom customer churn using Python and visual storytelling through Power BI to highlight key churn drivers and customer behavior patterns.
